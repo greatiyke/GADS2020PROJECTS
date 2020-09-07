@@ -1,0 +1,51 @@
+GCP FUNDAMENTALS: GETTING STARTED WITH COMPUTE ENGINE
+OBJECTIVES
+1. Create a compute engine virtual machine using the google cloud platform console
+2. Create a compute engine virtual mahine using the gcloud command line interface
+3. Connect between the two instances
+
+1.Create a compute engine virtual machine using the google cloud platform console(USING COMMAND LINE)
+#in GCP console on the top right toolbar, click the open cloud shell button
+#click continue
+#to configure my project
+gcloud config set project PROJECT_ID
+#to choose a zone
+gcloud config set compute/zone us-central1-a
+#to create a VM instance called my-vm-1
+gcloud compute instance create "my-vm-1" --machine type "n1-standard-1" --image project "debian cloud" --image "debian-9-stretch-v20190213" --subnet "default"
+--tags http
+#to allow firewall rule
+gcloud compute firewall-rule create allow-http --action=ALLOW --destination=INGRESS
+rules=http:80 --target -tags=http
+#to close the cloud shell
+exit
+#the vm instance will be visible on the VM instances Dashboard on the cloud console.
+2. Create a compute engine virtual machine using the gcloud command line interface
+#choose a zone
+gcloud config set compute/zone us-central1-b
+#to create vm instance my-vm-2
+gcloud compute instance create "my-vm-2"
+--machine-type "n1-standard-1" --image project "debian-cloud" --image "debian-9-stretch-v20190213" --subnet "default"
+3. Connect between the two instances
+#use the ping command to confirm that my-vm-2 can reach my-vm-1 over the network
+#to connect to my-vm-2
+gcloud compute ssh my-vm-2
+ping my-vm-1
+press ctrl-c to abort the ping
+#use the ssh command to open a command prompt on my-vm-1
+ssh my-vm-1
+#at the command prompt on my-vm-1 install the nginx server
+sudo apt-get install nginx-light-y
+#use the nano text editor to add a custom message to the home page of the web server
+sudo nano/var/www/html/index.nginx-debian.html
+#use the arrow key to move the cursor to the line just below the h1 header and add a text
+hi from elendu
+#press ctrl o and then press enter to save your edited file and then press ctrl-x to exit the nano text editor
+#to that the web server is serving my new page at the command prompt on my-vm-1
+curl http://localhost/
+exit
+#to confirm that my-vm-2 can reach the web server on my-vm-1 at the command prompt on my-vm-2 execute the command
+curl http://my-vm-1/
+#the response will be the html source of the web server home page including my line of custom text
+#copy the external ip address for my-vm-1 and paste it into the address bar of a new browser tab, and my web server home page including my custom text will be displayed.
+

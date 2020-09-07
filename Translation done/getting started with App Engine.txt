@@ -1,0 +1,46 @@
+GETTING STARTED WITH APP ENGINE
+OBJECTIVES
+1. Preview an App engine application running locally in cloud shell
+2. Deploy an App engine application, so that others can reach it
+3. Disable an App engine application, when you no longer want it to be visible
+1. To initialize an APP Engine 
+#in GCP console on the top right toolbar check the open cloud shell button, then click continue
+#list the active account with with 
+gcloud auth list
+#list the project ID with 
+gcloud config list project
+#you can configure your project ID with
+gcloud config set project PROJECT_ID  #NOTE your project ID is listed at the top left in your GCP console
+#initialize the APP engine with your project and choose the region you want the APP to be located
+gcloud App create --project = $DEVSHELL_PROJECT_ID
+#when prompted select the region where you want the your app engine app located
+#clone the source code repository for a sample application in the hello-world directory
+git clone https://github.com/googlecloudplatform/python-docs-sample
+#navigate to the source directory
+cd python-docs-samples/app engine/standard_python3/hello_world
+2. Run hello world application locally
+#in the cloud shell command execute the following command to download and upgrade the packages list
+sudo apt-get update
+#set up a virtual environment in which you will ru your application, python virtual environments are used to isolate package installations from the system
+sudo apt-get install virtualen #if prompted y/n press y and then enter
+virtualenv -p python3 venv
+#activate the virtual environment
+source venv/bin/activate
+#navigate to your project directory and install dependencies
+pip install -r requirements.txt
+#run the application 
+python main.py  #ignoring the warning if any
+#in cloud shell check web preview >preview on port 8080 to preview the app
+#return to cloud shell and press ctrl-c to abort the deployed services
+2b. Deploy and run hello world on app engine
+#navigate to the source directory
+cd ~/python-docs-samples/appengine/standard_python3/hello_world
+#Deploy your hellow world application
+gcloud app deployed
+#launch your browser to view the app at http://YOUR_PROJET_ID appspot.com
+gcloud app browse
+#copy and paste the url into a new browser window
+3. Disable the application
+#App engine offers no option to undeploy an application, however you can disable the application which causes it to no longer be accessible to users
+#in the cloud console on the navigation menu click app engine >settings click disable application
+#read the dialog message enter the App ID and click disable, if you refresh the browser you will get a 404 error
